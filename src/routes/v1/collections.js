@@ -49,7 +49,7 @@ router.post(
       if (!data.insertId) {
         return res.status(500).send({ err: "Please try again" });
       }
-      return res.send({ msg: "Successfully updated collection" });
+      return res.send({ msg: "Successfully added to collection" });
     } catch (err) {
       console.log(err);
       return res

@@ -47,7 +47,7 @@ router.post("/wines", isLoggedIn, validation(winesSchema), async (req, res) => {
       return res.status(500).send({ err: "Please try again" });
     }
 
-    return res.send({ msg: "Successfully added Wine" });
+    return res.send({ msg: "Successfully added wine" });
   } catch (err) {
     return res
       .status(500)
