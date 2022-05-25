@@ -81,11 +81,11 @@ router.post(
       if (!data.affectedRows) {
         return res.status(500).send({ err: "Please try again later" });
       }
-      return res.send({ msg: "Successfully updated Wine Sort" });
+      return res.send({ msg: "Successfully updated collection" });
     } catch (err) {
       return res
         .status(500)
-        .send({ err: "A server issue has occured - please try again later 2" });
+        .send({ err: "A server issue has occured - please try again later" });
     }
   }
 );
@@ -108,11 +108,11 @@ router.post(
       if (!data.affectedRows) {
         return res.status(500).send({ err: "Please try again later" });
       }
-      return res.send({ msg: "Successfully updated Wine Sort" });
+      return res.send({ msg: "Successfully updated collection" });
     } catch (err) {
       return res
         .status(500)
-        .send({ err: "A server issue has occured - please try again later 2" });
+        .send({ err: "A server issue has occured - please try again later" });
     }
   }
 );
