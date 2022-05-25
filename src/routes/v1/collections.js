@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const Joi = require("joi");
-// const jsonwebtoken = require("jsonwebtoken");
 
 const isLoggedIn = require("../../middleware/auth");
 const validation = require("../../middleware/validation");
@@ -14,7 +13,6 @@ const collectionsSchema = Joi.object({
   quantity: Joi.number().required(),
 });
 
-// check
 router.get("/my-wines", isLoggedIn, async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
@@ -31,9 +29,7 @@ router.get("/my-wines", isLoggedIn, async (req, res) => {
       .send({ err: "Server issue occurred. Please try again later." });
   }
 });
-//
 
-// check
 router.post(
   "/my-wines",
   isLoggedIn,
@@ -62,7 +58,7 @@ router.post(
     }
   }
 );
-//
+
 router.post(
   "/increment",
   isLoggedIn,
