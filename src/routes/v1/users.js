@@ -29,7 +29,6 @@ const changePasswordSchema = Joi.object({
 router.post("/register", validation(registrationSchema), async (req, res) => {
   try {
     const hash = bcrypt.hashSync(req.body.password, 10);
-
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
       INSERT INTO users (name, email, password)
@@ -38,13 +37,11 @@ router.post("/register", validation(registrationSchema), async (req, res) => {
     )}, '${hash}')
     `);
     await con.end();
-
     if (!data.insertId || data.affectedRows !== 1) {
       return res
         .status(500)
         .send({ err: "Server issue occurred. Please try again later." });
     }
-
     return res.send({
       msg: "Successfully created account",
       accountId: data.insertId,
@@ -66,17 +63,13 @@ router.post("/login", validation(loginSchema), async (req, res) => {
       LIMIT 1
     `);
     await con.end();
-
     if (data.length === 0) {
       return res.status(400).send({ err: "User not found" });
     }
-
     if (!bcrypt.compareSync(req.body.password, data[0].password)) {
       return res.status(400).send({ err: "Incorrect password" });
     }
-
     const token = jsonwebtoken.sign({ accountId: data[0].id }, jwtSecret);
-
     return res.send({
       msg: "Successfully logged in",
       token,
@@ -101,27 +94,21 @@ router.post(
       WHERE id = ${mysql.escape(req.user.accountId)}
       LIMIT 1
     `);
-
-      // console.log(data);
       const checkHash = bcrypt.compareSync(
         req.body.oldPassword,
         data[0].password
       );
-
       if (!checkHash) {
         await con.end();
         return res.status(400).send({ err: "Incorrect old password" });
       }
-
       const newPasswordHash = bcrypt.hashSync(req.body.newPassword, 10);
-
       const changePasswordDBRes = await con.execute(
         `UPDATE users SET password = ${mysql.escape(
           newPasswordHash
         )} WHERE id = ${mysql.escape(req.user.accountId)}`
       );
 
-      // console.log(changePasswordDBRes);
       await con.end();
       return res.send({ msg: "Password has been changed" });
     } catch (err) {
